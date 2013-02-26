@@ -109,6 +109,7 @@
         <version.jython>2.5.3</version.jython>
         <version.kie>6.0.0.Alpha6</version.kie>
         <version.maven.archetype.plugin>2.0</version.maven.archetype.plugin>
+        <version.maven.bundle.plugin>2.3.7</version.maven.bundle.plugin>
         <version.maven.exec.plugin>1.2</version.maven.exec.plugin>
         <version.maven.gwt.plugin>2.3.0-1</version.maven.gwt.plugin>
         <version.maven.shade.plugin>1.4</version.maven.shade.plugin>
@@ -146,6 +147,10 @@
         <version.xmlunit>1.1</version.xmlunit>
         <version.xstream>1.4.3</version.xstream>
         <version.shrinkwrap.descriptors>1.1.0-beta-1</version.shrinkwrap.descriptors>
+
+        <!-- OSGi properties -->
+        <osgi.import>*</osgi.import>
+        <osgi.export></osgi.export>
     </properties>
     <scm>
         <connection>scm:git:ssh//github.com/switchyard/core.git</connection>
@@ -201,6 +206,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-archetype-plugin</artifactId>
                     <version>${version.maven.archetype.plugin}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${version.maven.bundle.plugin}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -300,6 +310,19 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                  <instructions>
+                    <SPI-Provider>*</SPI-Provider>
+                    <SPI-Consumer>*</SPI-Consumer>
+                    <Import-Package>${osgi.import}</Import-Package>
+                    <Export-Package>${osgi.export}</Export-Package>
+                  </instructions>
+                </configuration>
+                <extensions>true</extensions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
